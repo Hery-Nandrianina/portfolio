@@ -10,8 +10,8 @@ function Project() {
         <h1>Projet Personnel</h1>
         <div className="projects-grid">
             <div className="project">
-                <a href="" target="_blank" rel="noreferrer"><img src={mock01} className="zoom" alt="thumbnail" width="100%"/></a>
-                <a href="" target="_blank" rel="noreferrer"><h2>Application e-commerce</h2></a>
+                <a href="https://kaleidoscopic-torte-2d1c28.netlify.app/" target="_blank" rel="noreferrer"><img src={mock01} className="zoom" alt="thumbnail" width="100%"/></a>
+                <a href="https://kaleidoscopic-torte-2d1c28.netlify.app/" target="_blank" rel="noreferrer"><h2>Application e-commerce</h2></a>
                 <p>Création d’une site e-commerce simple en React avec catalogue, gestion de panier et navigation interactive. Données simulées en local.</p>
             </div>
             <div className="project">
