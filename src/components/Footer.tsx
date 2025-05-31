@@ -7,7 +7,7 @@ function Footer() {
   return (
     <footer>
       <div>
-        <a href="https://github.com/" target="_blank" rel="noreferrer"><GitHubIcon/></a>
+        <a href="https://github.com/hery-nandrianina" target="_blank" rel="noreferrer"><GitHubIcon/></a>
         <a href="https://www.linkedin.com" target="_blank" rel="noreferrer"><LinkedInIcon/></a>
       </div>
       <p>+261 32 60 539 21 | earnandrianina@gmail.com</p>
