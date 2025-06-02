@@ -18,8 +18,16 @@
     color: white;
   }
 
-  fieldset {
+  // fieldset {
+  //   background-color: white;
+  // }
+  .MuiOutlinedInput-notchedOutline {
     background-color: white;
+    z-index: 0;
+  }
+
+  .MuiOutlinedInput-input {
+    z-index: 1;
   }
 }
 
