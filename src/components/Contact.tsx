@@ -72,7 +72,7 @@ function Contact() {
       };
 
       console.log(templateParams);
-      emailjs.send(process.env.REACT_APP_SERVICE_ID ?? '', process.env.REACT_APP_TEMPLATE_ID ?? '', templateParams).then(
+      emailjs.send(process.env.REACT_APP_SERVICE_ID ?? '', process.env.REACT_APP_TEMPLATE_ID ?? '', templateParams, process.env.REACT_APP_API_KEY ?? '').then(
         (response) => {
           console.log('SUCCESS!', response.status, response.text);
           setName('');
@@ -83,7 +83,7 @@ function Contact() {
           alert('Message envoyé!');
         },
         (error) => {
-          console.error('Email error:', error.text);
+          console.error('Email error:', error);
           alert("Il semble que le service soit en panne. Veuillez m'envoyer directement un e-mail à l'adresse earnandrianina@gmail.com");
         },
       );
