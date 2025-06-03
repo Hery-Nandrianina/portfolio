@@ -1,10 +1,35 @@
 import React, { useRef, useState } from 'react';
 import '../assets/styles/Contact.scss';
-// import emailjs from '@emailjs/browser';
+import emailjs from '@emailjs/browser';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
 import TextField from '@mui/material/TextField';
+
+const SUBMISSION_LIMIT = 2;
+const STORAGE_KEY = 'contactFormSubmissions';
+const getToday = () => new Date().toISOString().slice(0, 10);
+
+type SubmissionData = {
+  date: string;  // YYYY-MM-DD
+  count: number;
+};
+
+// Load submission data from localStorage
+function loadSubmissions() : SubmissionData {
+  const data = localStorage.getItem(STORAGE_KEY);
+  if (!data) return { date: getToday(), count: 0 };
+  try {
+    return JSON.parse(data);
+  } catch {
+    return { date: getToday(), count: 0 };
+  }
+}
+
+// Save submission data to localStorage
+function saveSubmissions(data : SubmissionData) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
 
 function Contact() {
 
@@ -26,27 +51,43 @@ function Contact() {
     setMessageError(message === '');
 
     /* Uncomment below if you want to enable the emailJS */
+    const submissions = loadSubmissions();
+    // Reset count if date changed
+    if (submissions.date !== getToday()) {
+      submissions.date = getToday();
+      submissions.count = 0;
+      saveSubmissions(submissions);
+    }
 
-    // if (name !== '' && email !== '' && message !== '') {
-    //   var templateParams = {
-    //     name: name,
-    //     email: email,
-    //     message: message
-    //   };
+    if(submissions.count >= SUBMISSION_LIMIT) {
+      alert("La limite quotidienne de messages a été atteinte.\nVous pouvez toujours me contacter à l'adresse earnandrianina@gmail.com.");
+      return;
+    }
 
-    //   console.log(templateParams);
-    //   emailjs.send('service_id', 'template_id', templateParams, 'api_key').then(
-    //     (response) => {
-    //       console.log('SUCCESS!', response.status, response.text);
-    //     },
-    //     (error) => {
-    //       console.log('FAILED...', error);
-    //     },
-    //   );
-    //   setName('');
-    //   setEmail('');
-    //   setMessage('');
-    // }
+    if (name !== '' && email !== '' && message !== '') {
+      var templateParams = {
+        name: name,
+        email: email,
+        message: message
+      };
+
+      console.log(templateParams);
+      emailjs.send(process.env.REACT_APP_SERVICE_ID ?? '', process.env.REACT_APP_TEMPLATE_ID ?? '', templateParams).then(
+        (response) => {
+          console.log('SUCCESS!', response.status, response.text);
+          setName('');
+          setEmail('');
+          setMessage('');
+          submissions.count++;
+          saveSubmissions(submissions);
+          alert('Message envoyé!');
+        },
+        (error) => {
+          console.error('Email error:', error.text);
+          alert("Il semble que le service soit en panne. Veuillez m'envoyer directement un e-mail à l'adresse earnandrianina@gmail.com");
+        },
+      );
+    }
   };
 
   return (
